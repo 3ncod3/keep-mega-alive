@@ -74,7 +74,7 @@ script resides under but you can specify a path to this file like so:
 ./keep-mega-alive.sh path/to/login-file.csv
 ```
 
-### Regular interval runs
+### Schedule regular runs
 
 You can use [`crontab`](https://linux.die.net/man/5/crontab) to schedule the
 script to run at a regular interval by an entry to your cronfile (run `crontab
