@@ -1,15 +1,17 @@
-# keep-mega-alive
-A script to keep your mega account(s) alive and print their used storage info (`df -h`).
+# Keep-MEGA-Alive
+A script to keep your mega account(s) alive and print their used storage info
+(`df -h`).
+
 
 ## Installation
-
-### Install MEGAcmd
+### 1. Install MEGAcmd
 
 Go to https://github.com/meganz/MEGAcmd for full instructions.
 
 #### Debian/Ubuntu via APT
 
-The advantage of doing it this way is that updates of MEGAcmd will be automatically fetched and installed when you upgrade your packages.
+The advantage of doing it this way is that updates of MEGAcmd will be
+automatically fetched and installed when you upgrade your packages.
 
 
 Add the MEGA signing key for the repository
@@ -32,10 +34,17 @@ sudo apt update
 sudo apt install megacmd
 ```
 
+### 2. Download Script
+
+Download the latest version directly from here
+https://raw.githubusercontent.com/3ncod3/keep-mega-alive/main/keep-mega-alive.sh
+
+
+
 ## Usage
 
-Create a `mega-logins.csv` file with your mega logins under the same directory
-as the script like so:
+Create a `mega-logins.csv` file with your mega logins (without whitespaces)
+under the same directory as the script like so:
 
 ```csv
 example1@example.com,password1
