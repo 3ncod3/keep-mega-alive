@@ -97,3 +97,11 @@ script to run at a regular interval by adding an entry to your cronfile (run
 ```sh
 0 0 1 */3 * path/to/keep-mega-alive.sh
 ```
+
+### Parse log file for login errors
+
+The script logs everything in the file `keep-mega-alive` in your home directory. If you want to look at unsuccessful login attempts run
+
+```sh
+$  cat  ~/keep-mega-alive.log | grep ERROR
+```
