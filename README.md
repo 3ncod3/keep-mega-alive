@@ -83,19 +83,19 @@ script to run at a regular interval by adding an entry to your cronfile (run
 #### Run every month
 
 ```sh
-0 0 1 * * path/to/keep-mega-alive.sh
+0 0 1 * * path/to/keep-mega-alive.sh &>/dev/null
 ```
 
 #### Run every other month
 
 ```sh
-0 0 1 */2 * path/to/keep-mega-alive.sh
+0 0 1 */2 * path/to/keep-mega-alive.sh &>/dev/null
 ```
 
 #### Run every 3rd month
 
 ```sh
-0 0 1 */3 * path/to/keep-mega-alive.sh
+0 0 1 */3 * path/to/keep-mega-alive.sh &>/dev/null
 ```
 
 ### Parse log file for login errors
