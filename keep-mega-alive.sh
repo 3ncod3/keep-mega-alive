@@ -7,40 +7,45 @@ exec 4>>~/keep-mega-alive.log
 
 LOGINS=${1:-"mega-logins.csv"}
 
+log_msg () {
+	msg=$1
+	echo "$(date +"%Y-%m-%dT%H:%M:%S%:z") : $msg" >&4
+}
+
 if ! [ -x "$(command -v mega-version)" ]; then
 	echo 'Error: MEGAcmd is not installed. Get it from https://mega.io/cmd' >&2
 	exit 1
 fi
 
-echo -e "$(date "+%m%d%Y %T") : Starting keep-mega-alive \n" >&4
+log_msg "Starting keep-mega-alive" 
 
 mega-logout 1>/dev/null
 
 IFS=","
 while read username password
 do
-	echo -e "\n>>> $username"
-	echo "$(date "+%m%d%Y %T") : Trying to login as $username" >&4
+	echo "\n>>> $username"
+	log_msg "Trying to login as $username"
 	
-	mega-login "$username" "$password"
+	mega-login "$username" "$password" >&4
 
 	if [ ! $? -eq  0 ]
 	then 
 		echo "Unable to login as $username"
-		echo -e "$(date "+%m%d%Y %T") : [ERROR] Unable to login as $username \n" >&4
+		log_msg "[ERROR] Unable to login as $username"
 		continue  
 	fi
 
-	echo "$(date "+%m%d%Y %T") : Successfully logged in as $username" >&4
+	log_msg "Successfully logged in as $username"
 	
-	mega-df -h 
-	echo "$(date "+%m%d%Y %T") : Successfully wrote disk usage " >&4
+	mega-df -h
+	log_msg "Successfully wrote disk usage"
 	
 	mega-logout 1>/dev/null
-	echo -e "$(date "+%m%d%Y %T") : Logged out \n" >&4
+	log_msg "Logged out from $username \n"
 
 done <$LOGINS
 
-echo -e "$(date "+%m%d%Y %T") : Finished running keep-mega-alive \n" >&4
+log_msg "Finished running keep-mega-alive \n"
 
 exec 4>&-
