@@ -1,15 +1,16 @@
-#!/bin/sh
+#!/bin/bash
 ###
 # Keep-MEGA-Alive v1.2
 ##########################
 
 exec 4>>~/keep-mega-alive.log
+exec 5> >(tee -a ~/keep-mega-alive.log) 2>&1
 
 LOGINS=${1:-"mega-logins.csv"}
 
 log_msg () {
 	msg=$1
-	echo "$(date +"%Y-%m-%dT%H:%M:%S%:z") : $msg" >&4
+	echo -e "$(date +"%Y-%m-%dT%H:%M:%S%:z") : $msg" >&4
 }
 
 if ! [ -x "$(command -v mega-version)" ]; then
@@ -24,10 +25,10 @@ mega-logout 1>/dev/null
 IFS=","
 while read username password
 do
-	echo "\n>>> $username"
+	echo -e "\n>>> $username"
 	log_msg "Trying to login as $username"
 	
-	mega-login "$username" "$password" >&4
+	mega-login "$username" "$password" >&5
 
 	if [ ! $? -eq  0 ]
 	then 
@@ -38,14 +39,14 @@ do
 
 	log_msg "Successfully logged in as $username"
 	
-	mega-df -h
-	log_msg "Successfully wrote disk usage"
+	mega-df -h >&5
 	
 	mega-logout 1>/dev/null
-	log_msg "Logged out from $username \n"
+	log_msg "Logged out from $username"
 
 done <$LOGINS
 
 log_msg "Finished running keep-mega-alive \n"
 
 exec 4>&-
+exec 5>&-
