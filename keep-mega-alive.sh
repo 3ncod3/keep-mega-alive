@@ -28,7 +28,7 @@ do
 	echo -e "\n>>> $username"
 	log_msg "Trying to login as $username"
 	
-	mega-login "$username" "$password" >&5
+	mega-login $username $password >&5
 
 	if [ ! $? -eq  0 ]
 	then 
