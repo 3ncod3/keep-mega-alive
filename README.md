@@ -3,6 +3,7 @@
 A script to keep your mega account(s) alive and print their used storage info
 (`df -h`).
 
+Automatically logs every run in the `~/keep-mega-alive.log` file (since v1.2)
 ## Installation
 
 ### 1. Install MEGAcmd
@@ -55,6 +56,15 @@ example2@example.com,password2
 example3@example.com,password3
 ```
 
+## Upgrade
+
+Upgrade your current version of the script by simply re-downloading it
+
+```sh
+curl -O https://raw.githubusercontent.com/3ncod3/keep-mega-alive/main/keep-mega-alive.sh
+chmod u+x keep-mega-alive.sh
+```
+
 ## Usage
 
 Once you have created `mega-logins.csv` in the same directory as the
@@ -103,5 +113,13 @@ script to run at a regular interval by adding an entry to your cronfile (run
 The script logs everything in the file `keep-mega-alive` in your home directory. If you want to look at unsuccessful login attempts run
 
 ```sh
-$  cat  ~/keep-mega-alive.log | grep ERROR
+cat  ~/keep-mega-alive.log | grep ERROR
+```
+
+### Version
+
+Find your script version by running
+
+```sh
+./keep-mega-alive.sh --version
 ```

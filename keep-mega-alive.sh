@@ -1,14 +1,21 @@
 #!/bin/bash
 ###
-# Keep-MEGA-Alive v1.2
-##########################
+# Keep-MEGA-Alive
+# https://github.com/3ncod3/keep-mega-alive
+###########################################
 
 exec 4>>~/keep-mega-alive.log
 exec 5> >(tee -a ~/keep-mega-alive.log) 2>&1
 
+VERSION=1.2
 LOGINS=${1:-"mega-logins.csv"}
 
-log_msg () {
+if [[ $1 == "--version" ]]; then
+	echo "Keep-MEGA-Alive v$VERSION"
+	exit 0
+fi
+
+log_msg() {
 	msg=$1
 	echo -e "$(date +"%Y-%m-%dT%H:%M:%S%:z") : $msg" >&4
 }
@@ -18,29 +25,27 @@ if ! [ -x "$(command -v mega-version)" ]; then
 	exit 1
 fi
 
-log_msg "Starting keep-mega-alive" 
+log_msg "Starting keep-mega-alive"
 
 mega-logout 1>/dev/null
 
 IFS=","
-while read username password
-do
+while read username password; do
 	echo -e "\n>>> $username"
 	log_msg "Trying to login as $username"
-	
+
 	mega-login $username $password >&5
 
-	if [ ! $? -eq  0 ]
-	then 
+	if [ ! $? -eq 0 ]; then
 		echo "Unable to login as $username"
 		log_msg "[ERROR] Unable to login as $username"
-		continue  
+		continue
 	fi
 
 	log_msg "Successfully logged in as $username"
-	
+
 	mega-df -h >&5
-	
+
 	mega-logout 1>/dev/null
 	log_msg "Logged out from $username"
 
