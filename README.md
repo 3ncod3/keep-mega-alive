@@ -37,7 +37,8 @@ sudo apt install megacmd
 
 ### 2. Download the script
 
-Download the latest version of the script and make it executable
+From your home directory (`~`), download the latest version of the script and
+make it executable
 
 ```sh
 curl -O https://raw.githubusercontent.com/3ncod3/keep-mega-alive/main/keep-mega-alive.sh
@@ -47,8 +48,8 @@ chmod u+x keep-mega-alive.sh
 ### 3. Create the logins file
 
 Create a `mega-logins.csv` CSV file with your mega logins, with each email and
-password being separated by a comma and on a separate line, under the same
-directory as the script like so:
+password being separated by a comma and on a separate line, under your home
+directory like so:
 
 ```csv
 example1@example.com,password1
@@ -67,11 +68,11 @@ chmod u+x keep-mega-alive.sh
 
 ## Usage
 
-Once you have created `mega-logins.csv` in the same directory as the
-script and the script is executable (see Installation), just run it:
+Once you have created `mega-logins.csv` in your home directory and the script is
+executable (see Installation), just run it:
 
 ```sh
-./keep-mega-alive.sh
+~/keep-mega-alive.sh
 ```
 
 ### Specify logins file path
@@ -81,7 +82,7 @@ same directory the script resides under but you can specify a path to this file
 like so:
 
 ```sh
-./keep-mega-alive.sh path/to/logins-file.csv
+~/keep-mega-alive.sh path/to/logins-file.csv
 ```
 
 ### Schedule regular runs
@@ -121,5 +122,5 @@ cat  ~/keep-mega-alive.log | grep ERROR
 Find your script version by running
 
 ```sh
-./keep-mega-alive.sh --version
+~/keep-mega-alive.sh --version
 ```
