@@ -1,21 +1,52 @@
-#!/bin/sh
+#!/bin/bash
 ###
-# Keep-MEGA-Alive v1.1
+# Keep-MEGA-Alive v1.2
 ##########################
 
+exec 4>>~/keep-mega-alive.log
+exec 5> >(tee -a ~/keep-mega-alive.log) 2>&1
+
 LOGINS=${1:-"mega-logins.csv"}
+
+log_msg () {
+	msg=$1
+	echo -e "$(date +"%Y-%m-%dT%H:%M:%S%:z") : $msg" >&4
+}
 
 if ! [ -x "$(command -v mega-version)" ]; then
 	echo 'Error: MEGAcmd is not installed. Get it from https://mega.io/cmd' >&2
 	exit 1
 fi
 
+log_msg "Starting keep-mega-alive" 
+
 mega-logout 1>/dev/null
 
-while IFS= read -r LINE; do
-	IFS="," read -a LOGIN <<<$LINE
-	echo -e "\n>>> ${LOGIN[0]}"
-	mega-login ${LOGIN[0]} ${LOGIN[1]}
-	mega-df -h
+IFS=","
+while read username password
+do
+	echo -e "\n>>> $username"
+	log_msg "Trying to login as $username"
+	
+	mega-login $username $password >&5
+
+	if [ ! $? -eq  0 ]
+	then 
+		echo "Unable to login as $username"
+		log_msg "[ERROR] Unable to login as $username"
+		continue  
+	fi
+
+	log_msg "Successfully logged in as $username"
+	
+	mega-df -h >&5
+	
 	mega-logout 1>/dev/null
+	log_msg "Logged out from $username"
+
 done <$LOGINS
+
+log_msg "Finished running keep-mega-alive \n"
+
+exec 4>&-
+exec 5>&-
