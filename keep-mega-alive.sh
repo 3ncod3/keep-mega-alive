@@ -25,7 +25,7 @@ if ! [ -x "$(command -v mega-version)" ]; then
 	exit 1
 fi
 
-log_msg "Starting keep-mega-alive"
+log_msg "Starting Keep-MEGA-Alive v$VERSION"
 
 mega-logout 1>/dev/null
 
@@ -51,7 +51,7 @@ while read username password; do
 
 done <$LOGINS
 
-log_msg "Finished running keep-mega-alive \n"
+log_msg "Finished running Keep-MEGA-Alive \n"
 
 exec 4>&-
 exec 5>&-

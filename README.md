@@ -57,6 +57,15 @@ example2@example.com,password2
 example3@example.com,password3
 ```
 
+### Windows
+
+For Windows, download and use the `keep-mega-alive.bat` file instead of the
+`keep-mega-alive.sh` file everywhere.
+
+```
+https://raw.githubusercontent.com/3ncod3/keep-mega-alive/main/keep-mega-alive.bat
+```
+
 ## Upgrade
 
 Upgrade your current version of the script by simply re-downloading it
