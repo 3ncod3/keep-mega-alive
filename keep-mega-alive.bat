@@ -22,14 +22,15 @@ if "%~1" == "" (
   set "LOGINS=%1"
 )
 
+call MEGAcmdServer & /dev/null
 call mega-logout >NUL
 call :log
 call :log Starting Keep-MEGA-Alive v%VERSION%
 
 for /F "tokens=1,2" %%i in (%LOGINS%) do (
-   call :process %%i %%j > keep-mega-alive.tmp 2>&1
-   type keep-mega-alive.tmp >> keep-mega-alive.log
-   type keep-mega-alive.tmp
+  call :process %%i %%j > keep-mega-alive.tmp 2>&1
+  type keep-mega-alive.tmp >> keep-mega-alive.log
+  type keep-mega-alive.tmp
 )
 
 goto :cleanup
@@ -37,8 +38,8 @@ goto :cleanup
 
 
 :log
-set "LogMsg=%~1"
-echo [%DATE% %TIME%] !LogMsg! >> keep-mega-alive.log
+echo [%DATE% %TIME%] %* >> keep-mega-alive.log
+goto :eof
 
 :process
 call :log Trying to login as %1
