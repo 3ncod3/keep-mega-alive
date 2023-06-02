@@ -11,18 +11,18 @@ VERSION=1.2
 LOGINS=${1:-"mega-logins.csv"}
 
 if [[ $1 == "--version" ]]; then
-	echo "Keep-MEGA-Alive v$VERSION"
-	exit 0
+        echo "Keep-MEGA-Alive v$VERSION"
+        exit 0
 fi
 
 log_msg() {
-	msg=$1
-	echo -e "$(date +"%Y-%m-%dT%H:%M:%S%:z") : $msg" >&4
+        msg=$1
+        echo -e "$(date +"%Y-%m-%dT%H:%M:%S%:z") : $msg" >&4
 }
 
 if ! [ -x "$(command -v mega-version)" ]; then
-	echo 'Error: MEGAcmd is not installed. Get it from https://mega.io/cmd' >&2
-	exit 1
+        echo 'Error: MEGAcmd is not installed. Get it from https://mega.io/cmd' >&2
+        exit 1
 fi
 
 log_msg "Starting Keep-MEGA-Alive v$VERSION"
@@ -30,24 +30,25 @@ log_msg "Starting Keep-MEGA-Alive v$VERSION"
 mega-logout 1>/dev/null
 
 IFS=","
-while read username password; do
-	echo -e "\n>>> $username"
-	log_msg "Trying to login as $username"
+while read -r username password; do
+        username=$(echo "$username" | tr -d '[:space:]')
+        password=$(echo "$password" | tr -d '[:space:]')
+        echo -e "\n>>> $username"
+        log_msg "Trying to login as $username"
 
-	mega-login $username $password >&5
+        mega-login $username $password >&5
+        if [ ! $? -eq 0 ]; then
+                echo "Unable to login as $username"
+                log_msg "[ERROR] Unable to login as $username"
+                continue
+        fi
 
-	if [ ! $? -eq 0 ]; then
-		echo "Unable to login as $username"
-		log_msg "[ERROR] Unable to login as $username"
-		continue
-	fi
+        log_msg "Successfully logged in as $username"
 
-	log_msg "Successfully logged in as $username"
+        mega-df -h >&5
 
-	mega-df -h >&5
-
-	mega-logout 1>/dev/null
-	log_msg "Logged out from $username"
+        mega-logout 1>/dev/null
+        log_msg "Logged out from $username"
 
 done <$LOGINS
 
