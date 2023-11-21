@@ -3,7 +3,7 @@
 # Keep-MEGA-Alive
 # https://github.com/3ncod3/keep-mega-alive
 
-VERSION=1.2
+VERSION=1.3
 LOGINS=${1:-"mega-logins.csv"}
 LOGFILE="$HOME/keep-mega-alive.log"
 
